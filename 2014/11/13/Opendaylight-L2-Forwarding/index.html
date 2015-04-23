@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Opendaylight L2_Forwarding | Lithium</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Start from scratch
+在这里把Opendaylight实现二层交换机功能的范例代码尽可能准确的使用自然语言分析。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Opendaylight L2_Forwarding">
+<meta property="og:url" content="http://www.sunqi.me/2014/11/13/Opendaylight-L2-Forwarding/">
+<meta property="og:site_name" content="Lithium">
+<meta property="og:description" content="Start from scratch
+在这里把Opendaylight实现二层交换机功能的范例代码尽可能准确的使用自然语言分析。">
+<meta property="og:image" content="http://sunqi-me.qiniudn.com/QQ20141112-1.jpg">
+<meta property="og:image" content="http://sunqi-me.qiniudn.com/intellij.jpg">
+<meta property="og:image" content="http://sunqi-me.qiniudn.com/%E9%82%AE%E7%AE%B1.gif">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Opendaylight L2_Forwarding">
+<meta name="twitter:description" content="Start from scratch
+在这里把Opendaylight实现二层交换机功能的范例代码尽可能准确的使用自然语言分析。">
+
+  
+    <link rel="alternative" href="/atom.xml" title="Lithium" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<div class="profilepic">
+			<img src="http://sunqi-me.qiniudn.com/download.jpeg">
+		</div>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Lithium</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Strictly Business</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/hd5970" title="github">github</a>
+					        
+								<a class="twitter" target="_blank" href="https://twitter.com/Neuro_man_cer" title="twitter">twitter</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud">
+						<a href="/tags/Opendaylight/" style="font-size: 20.00px;">Opendaylight</a><a href="/tags/Ryu/" style="font-size: 10.00px;">Ryu</a><a href="/tags/essay/" style="font-size: 10.00px;">essay</a><a href="/tags/mininet/" style="font-size: 20.00px;">mininet</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay"></div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="http://sunqi-me.qiniudn.com/download.jpeg">
+			</div>
+
+			<hgroup>
+			  <h1 class="header-author"><a href="/">Lithium</a></h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Strictly Business</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/hd5970" title="github">github</a>
+			        
+						<a class="twitter" target="_blank" href="https://twitter.com/Neuro_man_cer" title="twitter">twitter</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <article id="post-Opendaylight-L2-Forwarding" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/11/13/Opendaylight-L2-Forwarding/" class="article-date">
+  	<time datetime="2014-11-13T08:45:48.000Z" itemprop="datePublished">Nov 13 2014</time>
+</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Opendaylight/">Opendaylight</a></li></ul>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Opendaylight L2_Forwarding
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Start_from_scratch">Start from scratch</h2>
+<p>在这里把Opendaylight实现二层交换机功能的范例代码尽可能准确的使用自然语言分析。</p>
+<a id="more"></a>
+
+<h2 id="L2_Forwarding工作流程">L2_Forwarding工作流程</h2>
+<h3 id="网络拓扑">网络拓扑</h3>
+<p><img src="http://sunqi-me.qiniudn.com/QQ20141112-1.jpg" alt="凑合看= ="></p>
+<h3 id="以命令h1_ping_h2_为例">以命令h1 ping h2 为例</h3>
+<p>h1准备ping h2，问题是他只知道h2的IP地址，于是他就向交换鸡发出ARP解析h2,h2是谁？mac地址给我。</p>
+<p>交换机也不知道怎么搞，我不懂二层交换啊，交换机就把ARP通过OF消息发给控制器处理。</p>
+<p>控制器一看，是从port1传来的h1啊，小本本（mac_to_port）记下来，h1 来自交换鸡1的 port1 ，收到了arp请求，控制器向每一台交换机发送指令，在所有对应10.0.0.0/8网段的，并且不是交换机互联端口的端口，发送ARP请求10.0.0.2（h2）的mac地址，需要注意的是，控制器把ARP包的源IP改成了控制器的IP，因为交换机笨啊，只知道网关的IP与mac地址。</p>
+<p>h2收到了ARP请求，响应之，发送给交换机，交换机也不知道，又发给控制器，控制器发现这是h1请求的h2，并且告诉交换机，这个发给在port1的h1，不要发错了。</p>
+<p>控制器现在知道了h1和h2的位置，计算一下转发路径（基于mac地址），发送给交换鸡，交换机就知道怎么转发了。</p>
+<p>h1收到了h2的mac地址，就开始构造一个ICMP request报文，源mac地址是h1，目的mac地址是h2，源目的IP同理，发送给交换鸡，交换机这时候已经收到了h1到h2的流表，就把数据包发送给h2了。</p>
+<p>h2收到了来自h1的ICMP request，发现来自h1的骚扰，h1是谁？再构造一次ARP请求，发送给交换鸡，交换鸡表示我只知道mac地址转发，交换鸡又发送给控制器，控制器在已经知道了h1的mac地址，就伪装成h1给h2发送ARP响应，并且告诉交换鸡，发给port2的h2.</p>
+<p>h2知道了mac，就构造好ICMP response，发送给h1，这次有目的mac地址了，交换鸡就懂了，发给port1 的h1，至此，通道已经打通。</p>
+<p>看起来虽然有ip层（10.0.0.1，10.0.0.2），但的确是L2_Forwading。</p>
+<h2 id="下载SDNHub_Opendaylight_Tutorial">下载SDNHub_Opendaylight_Tutorial</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/sdnhub/SDNHub_Opendaylight_Tutorial.git</div></pre></td></tr></table></figure>
+
+<h2 id="API-driven_SAL">API-driven SAL</h2>
+<p>打开IntelliJ或者装有Maven Plugin的Eclipse，导入git根目录下的pom.xml。</p>
+<p><img src="http://sunqi-me.qiniudn.com/intellij.jpg" alt="IntelliJ IDEA"></p>
+<p>定位至TutorialL2Forwarding.java，这个工程主要通过两个类实现，TutorialL2ForWading用来代码实现，Activator.java用来激活Bundle。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TutorialL2Forwarding</span> <span class="keyword">implements</span> <span class="title">IListenDataPacket</span> </span>{</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory</div><div class="line">            .getLogger(TutorialL2Forwarding.class);</div><div class="line">    <span class="comment">//定义Logger用来日志输出与记录</span></div><div class="line">    <span class="keyword">private</span> ISwitchManager switchManager = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">private</span> IFlowProgrammerService programmer = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">private</span> IDataPacketService dataPacketService = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">private</span> Map&lt;Long, NodeConnector&gt; mac_to_port = <span class="keyword">new</span> HashMap&lt;Long,NodeConnector&gt;();</div><div class="line">    <span class="comment">//定义一个HashMap，用来存储host的MAC地址与IP地址的对应关系</span></div><div class="line">    <span class="keyword">private</span> String function = <span class="string">"switch"</span>;</div><div class="line">    <span class="comment">//一个字符串，用来定义模块的工作模式，下面会看到</span></div><div class="line">    </div><div class="line">    <span class="comment">//下面开始注册服务来满足依赖关系</span></div><div class="line">    <span class="keyword">void</span> setDataPacketService(IDataPacketService s) {</div><div class="line">        <span class="keyword">this</span>.dataPacketService = s;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">void</span> unsetDataPacketService(IDataPacketService s) {</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.dataPacketService == s) {</div><div class="line">            <span class="keyword">this</span>.dataPacketService = <span class="keyword">null</span>;</div><div class="line">        }</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFlowProgrammerService</span>(IFlowProgrammerService s)</div><div class="line">    {</div><div class="line">        <span class="keyword">this</span>.programmer = s;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unsetFlowProgrammerService</span>(IFlowProgrammerService s) {</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.programmer == s) {</div><div class="line">            <span class="keyword">this</span>.programmer = <span class="keyword">null</span>;</div><div class="line">        }</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">void</span> setSwitchManager(ISwitchManager s) {</div><div class="line">        logger.debug(<span class="string">"SwitchManager set"</span>);</div><div class="line">        <span class="keyword">this</span>.switchManager = s;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">void</span> unsetSwitchManager(ISwitchManager s) {</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.switchManager == s) {</div><div class="line">            logger.debug(<span class="string">"SwitchManager removed!"</span>);</div><div class="line">            <span class="keyword">this</span>.switchManager = <span class="keyword">null</span>;</div><div class="line">        }</div><div class="line">    }</div><div class="line">    <span class="comment">//启动服务</span></div><div class="line">    <span class="keyword">void</span> init() {</div><div class="line">        logger.info(<span class="string">"Initialized"</span>);</div><div class="line">        <span class="comment">//如果你用过Opendaylight做过实验，那么SimpleForwarding模块一定不会忘记，这里</span></div><div class="line">        <span class="comment">//做的就是找出simpleforwarding模块并卸载之，和我们这个模块的功能冲突咯</span></div><div class="line">        BundleContext bundleContext = FrameworkUtil.getBundle(<span class="keyword">this</span>.getClass()).getBundleContext();</div><div class="line">        <span class="keyword">for</span>(Bundle bundle : bundleContext.getBundles()) {</div><div class="line">            <span class="keyword">if</span> (bundle.getSymbolicName().contains(<span class="string">"simpleforwarding"</span>)) {</div><div class="line">                <span class="keyword">try</span> {</div><div class="line">                    bundle.uninstall();</div><div class="line">                } <span class="keyword">catch</span> (BundleException e) {</div><div class="line">                    logger.error(<span class="string">"Exception in Bundle uninstall "</span>+bundle.getSymbolicName(), e); </div><div class="line">                }   </div><div class="line">            }   </div><div class="line">        }   </div><div class="line">    }</div><div class="line">    <span class="comment">//下面就是一些无聊的方法</span></div><div class="line">    <span class="keyword">void</span> destroy() {</div><div class="line">    <span class="comment">//这个方法我也没见调用过，谁能告诉我为什么没有代码？</span></div><div class="line">    }</div><div class="line">    <span class="keyword">void</span> start() {</div><div class="line">        logger.info(<span class="string">"Started"</span>);</div><div class="line">    }</div><div class="line">    <span class="keyword">void</span> stop() {</div><div class="line">        logger.info(<span class="string">"Stopped"</span>);</div><div class="line">    }</div><div class="line">    <span class="comment">//在终端输出消息</span></div><div class="line">    </div><div class="line">    <span class="comment">//泛洪来了，这个方法比较简单，向除了发来端口的所有交换鸡泛洪。</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">floodPacket</span>(RawPacket inPkt) {</div><div class="line">        NodeConnector incoming_connector = inPkt.getIncomingNodeConnector();</div><div class="line">        Node incoming_node = incoming_connector.getNode();</div><div class="line"></div><div class="line">        Set&lt;NodeConnector&gt; nodeConnectors =</div><div class="line">                <span class="keyword">this</span>.switchManager.getUpNodeConnectors(incoming_node);</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (NodeConnector p : nodeConnectors) {</div><div class="line">            <span class="keyword">if</span> (!p.equals(incoming_connector)) {</div><div class="line">                <span class="keyword">try</span> {</div><div class="line">                    RawPacket destPkt = <span class="keyword">new</span> RawPacket(inPkt);</div><div class="line">                    destPkt.setOutgoingNodeConnector(p);</div><div class="line">                    <span class="keyword">this</span>.dataPacketService.transmitDataPacket(destPkt);</div><div class="line">                } <span class="keyword">catch</span> (ConstructionException e2) {</div><div class="line">                    <span class="keyword">continue</span>;</div><div class="line">                }</div><div class="line">            }</div><div class="line">        }</div><div class="line">    }</div><div class="line">    </div><div class="line">    <span class="keyword">public</span> PacketResult <span class="title">receiveDataPacket</span>(RawPacket inPkt) {</div><div class="line">        <span class="keyword">if</span> (inPkt == <span class="keyword">null</span>) {</div><div class="line">            <span class="keyword">return</span> PacketResult.IGNORED;</div><div class="line">            <span class="comment">//官方文档说这里的INGORED方法是表示Packet被忽略，并且准备将这个pkt传递给</span></div><div class="line">            <span class="comment">//下一个Bundle，我检索了PacketResult.class，也没有发现怎么INGOTRED的，包没</span></div><div class="line">            <span class="comment">//下完？</span></div><div class="line">        }</div><div class="line"></div><div class="line">        NodeConnector incoming_connector = inPkt.getIncomingNodeConnector();</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (function.equals(<span class="string">"hub"</span>)) {</div><div class="line">            floodPacket(inPkt);</div><div class="line">            <span class="comment">// 前面说的交换机工作模式，这里用字符串方式判定</span></div><div class="line">            <span class="comment">// hub模式就是泛洪所有包，switch模式看下面else</span></div><div class="line">        } <span class="keyword">else</span> {</div><div class="line">            Packet formattedPak = <span class="keyword">this</span>.dataPacketService.decodeDataPacket(inPkt);</div><div class="line">            <span class="comment">/*Packet decodeDataPacket(RawPacket pkt)</span></div><div class="line">                    Decode a Data Packet received as a raw stream</div><div class="line">                    Parameters:</div><div class="line">                    pkt - Raw Packet to be decoded</div><div class="line">                    Returns:</div><div class="line">                    The formatted Data Packet</div><div class="line">                    转换成标准格式的Data Packet，标准格式的Data Packet是什么？</div><div class="line">            */</div><div class="line">            <span class="keyword">if</span> (!(formattedPak <span class="keyword">instanceof</span> Ethernet)) {</div><div class="line">                <span class="keyword">return</span> PacketResult.IGNORED;</div><div class="line">                <span class="comment">//你看看，这里又IGNORE了，如果formattedPak是Ethernet的实例，那么就</span></div><div class="line">                <span class="comment">//传给下一个Bundle，那么Ethernet到底是定义什么的呢，我们来CMD+N扒一扒</span></div><div class="line">                <span class="comment">//public class Ethernet extends Packet </span></div><div class="line">                    <span class="comment">//private static final String DMAC = "DestinationMACAddress";</span></div><div class="line">                    <span class="comment">//private static final String SMAC = "SourceMACAddress";</span></div><div class="line">                    <span class="comment">//private static final String ETHT = "EtherType";</span></div><div class="line">                <span class="comment">//我猜这个Ethernet类差不多就是定义以太网帧的吧，不是以太网帧那就不是</span></div><div class="line">                <span class="comment">//我们的菜！交给其他Bundle吧</span></div><div class="line">                </div><div class="line">            }</div><div class="line">            learnSourceMAC(formattedPak, incoming_connector);</div><div class="line">            <span class="comment">//这个方法比较有趣，虽然看上去就是学习了一下mac地址嘛。</span></div><div class="line">            <span class="comment">//但是他是针对任何formattedPak的，也就是说，不管我现在知不知道你mac的</span></div><div class="line">            <span class="comment">//对应关系，都要把你put进mac_to_port里面，就算你把port拔了，插了一台 </span></div><div class="line">            <span class="comment">//新电脑，还是根据hashmap特性更新你的mac地址。</span></div><div class="line">            <span class="comment">//注意为什么采用mac地址作为key，而不是port作为key，虽然port作为键值使</span></div><div class="line">            <span class="comment">//hashmap的最大key个数等于port个数，但是需要重写hashmap的方法，通过</span></div><div class="line">            <span class="comment">//value获取key值，并且同一个value对应的key可能不一样。</span></div><div class="line">            </div><div class="line">            NodeConnector outgoing_connector = </div><div class="line">                knowDestinationMAC(formattedPak);</div><div class="line">            <span class="keyword">if</span> (outgoing_connector == <span class="keyword">null</span>) {</div><div class="line">                <span class="comment">//人家根本没有在你的mac_to_port里嘛 =。=</span></div><div class="line">                floodPacket(inPkt);</div><div class="line">            } <span class="keyword">else</span> {</div><div class="line">                <span class="keyword">if</span> (!programFlow(formattedPak, incoming_connector,</div><div class="line">                            outgoing_connector)) {</div><div class="line">                    <span class="keyword">return</span> PacketResult.IGNORED;</div><div class="line">                    <span class="comment">//return false报错信息的话INGORE</span></div><div class="line">                }</div><div class="line">                inPkt.setOutgoingNodeConnector(outgoing_connector);</div><div class="line">                <span class="comment">//流表已经下发了，但是当前的这个包还在控制器没有发啊</span></div><div class="line">                <span class="comment">//流表应用于以后的包，那么当前的这个包我们要控制器亲在为他</span></div><div class="line">                <span class="comment">//设置port，以后同样IN_PORT和目的Mac地址的包就直接在交换鸡搞定。</span></div><div class="line">               </div><div class="line">                <span class="keyword">this</span>.dataPacketService.transmitDataPacket(inPkt);</div><div class="line">            }</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> PacketResult.CONSUME;</div><div class="line">        <span class="comment">//Packet has been processed and none in the chain after</span></div><div class="line">        <span class="comment">//us should handle it</span></div><div class="line">    }</div><div class="line">     <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">learnSourceMAC</span>(Packet formattedPak, NodeConnector incoming_connector) {</div><div class="line">        <span class="comment">//学习mac地址功能，将host对应的来源post和mac地址记录到mac_to_port</span></div><div class="line">        <span class="keyword">byte</span>[] srcMAC = ((Ethernet)formattedPak).getSourceMACAddress();</div><div class="line">        <span class="comment">//调用Ethernet的getSourceMacAddress方法，返回</span></div><div class="line">        <span class="comment">//(byte[])this.fieldValues.get("SourceMACAddress")</span></div><div class="line">        <span class="keyword">long</span> srcMAC_val = BitBufferHelper.toNumber(srcMAC);</div><div class="line">        <span class="comment">//调用BitbuffreHelper.toNumber方法，转换成long</span></div><div class="line">        <span class="keyword">this</span>.mac_to_port.put(srcMAC_val, incoming_connector);</div><div class="line">        <span class="comment">//put 进hashmap</span></div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">private</span> NodeConnector <span class="title">knowDestinationMAC</span>(Packet formattedPak) {</div><div class="line">        <span class="keyword">byte</span>[] dstMAC = ((Ethernet)formattedPak).getDestinationMACAddress();</div><div class="line">        <span class="keyword">long</span> dstMAC_val = BitBufferHelper.toNumber(dstMAC);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.mac_to_port.get(dstMAC_val) ;</div><div class="line">        <span class="comment">//给你mac地址，返回port信息</span></div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">programFlow</span>(Packet formattedPak, </div><div class="line">            NodeConnector incoming_connector, </div><div class="line">            NodeConnector outgoing_connector) {</div><div class="line">        <span class="keyword">byte</span>[] dstMAC = ((Ethernet)formattedPak).getDestinationMACAddress();</div><div class="line"></div><div class="line">        Match match = <span class="keyword">new</span> Match();</div><div class="line">        match.setField( <span class="keyword">new</span> MatchField(MatchType.IN_PORT, incoming_connector) );</div><div class="line">        <span class="comment">//首先我们来看Mathtype.IN_PORT是什么</span></div><div class="line">        <span class="comment">//public enum MatchType {</span></div><div class="line">           <span class="comment">// IN_PORT("inPort", 1, NodeConnector.class, 1L, 0L),</span></div><div class="line">           <span class="comment">// DL_SRC("dlSrc", 2, Byte[].class, 0L, 281474976710655L),</span></div><div class="line">           <span class="comment">// DL_DST("dlDst", 4, Byte[].class, 0L, 281474976710655L),</span></div><div class="line">           <span class="comment">// DL_VLAN("dlVlan", 8, Short.class, 0L, 4095L),</span></div><div class="line">           <span class="comment">// DL_VLAN_PR("dlVlanPriority", 16, Byte.class, 0L, 7L),</span></div><div class="line">           <span class="comment">// DL_OUTER_VLAN("dlOuterVlan", 32, Short.class, 1L, 4095L),</span></div><div class="line">           <span class="comment">// DL_OUTER_VLAN_PR("dlOuterVlanPriority", 64, Short.class, 0L, 7L),</span></div><div class="line">           <span class="comment">// DL_TYPE("dlType", 128, Short.class, 0L, 65535L),</span></div><div class="line">           <span class="comment">// NW_TOS("nwTOS", 256, Byte.class, 0L, 63L),</span></div><div class="line">           <span class="comment">// NW_PROTO("nwProto", 512, Byte.class, 0L, 255L),</span></div><div class="line">           <span class="comment">// NW_SRC("nwSrc", 1024, InetAddress.class, 0L, 0L),</span></div><div class="line">           <span class="comment">// NW_DST("nwDst", 2048, InetAddress.class, 0L, 0L),</span></div><div class="line">           <span class="comment">// TP_SRC("tpSrc", 4096, Short.class, 0L, 65535L),</span></div><div class="line">           <span class="comment">// TP_DST("tpDst", 8192, Short.class, 0L, 65535L);</span></div><div class="line">            <span class="comment">//看上去是Openflow的匹配域，不过为什么有14个？1.0不是12个吗？</span></div><div class="line">        <span class="comment">//再看看MatchField是什么</span></div><div class="line">        <span class="comment">//public MatchField(MatchType type, Object value) {</span></div><div class="line">          <span class="comment">//  this.type = type;</span></div><div class="line">          <span class="comment">//  this.value = value;</span></div><div class="line">          <span class="comment">//  this.mask = null;</span></div><div class="line">          <span class="comment">//  this.isValid = this.checkValueType() && this.checkValues();</span></div><div class="line">        <span class="comment">//}</span></div><div class="line">        <span class="comment">//没什么好玩的balabalabala</span></div><div class="line">        <span class="comment">//再看看match.setField方法</span></div><div class="line">        <span class="comment">//public void setField(MatchType type, Object value) {</span></div><div class="line">        <span class="comment">//    MatchField field = new MatchField(type, value);</span></div><div class="line">        <span class="comment">//    if(field.isValid()) {</span></div><div class="line">        <span class="comment">//        this.fields.put(type, field);</span></div><div class="line">        <span class="comment">//        this.matches |= type.getIndex();</span></div><div class="line">        <span class="comment">//        我擦咧，为什么二进制或方法都出来了？</span></div><div class="line">        <span class="comment">//        match.mathes,这个int类型的matches到底是表达什么的？</span></div><div class="line">        <span class="comment">//        注释上面说concise way to tell which fields the match is set for</span></div><div class="line">        <span class="comment">//        简单的方法来识别这个match是为什么设置的。既然类型是int，默认值为0</span></div><div class="line">        <span class="comment">//        那么经过或操作之后就是index的值，为什么要搞个 |= ？不直接用 = ？</span></div><div class="line">        <span class="comment">//    }</span></div><div class="line">        <span class="comment">// }</span></div><div class="line">        </div><div class="line">        match.setField( <span class="keyword">new</span> MatchField(MatchType.DL_DST, dstMAC.clone()) );</div><div class="line">        <span class="comment">//流表的匹配域有两个一个是IN_PORT，一个是目的MAC地址</span></div><div class="line"></div><div class="line">        List&lt;Action&gt; actions = <span class="keyword">new</span> ArrayList&lt;Action&gt;();</div><div class="line">        <span class="comment">//新的Action</span></div><div class="line">        <span class="comment">//public Output(NodeConnector port) {</span></div><div class="line">        <span class="comment">//    this.type = ActionType.OUTPUT;</span></div><div class="line">        <span class="comment">//    this.port = port;</span></div><div class="line">        <span class="comment">//}</span></div><div class="line">        <span class="comment">//ActionType的类型</span></div><div class="line">        <span class="comment">//public enum ActionType {</span></div><div class="line">        <span class="comment">//    DROP("drop", 0, 0),</span></div><div class="line">        <span class="comment">//    LOOPBACK("loopback", 0, 0),</span></div><div class="line">        <span class="comment">//    FLOOD("flood", 0, 0),</span></div><div class="line">        <span class="comment">//    FLOOD_ALL("floodAll", 0, 0),</span></div><div class="line">        <span class="comment">//    CONTROLLER("controller", 0, 0),</span></div><div class="line">        <span class="comment">//   INTERFACE("interface", 0, 0),</span></div><div class="line">        <span class="comment">//    SW_PATH("software path", 0, 0),</span></div><div class="line">        <span class="comment">//    HW_PATH("harware path", 0, 0),</span></div><div class="line">        <span class="comment">//    OUTPUT("output", 0, '\uffff'),</span></div><div class="line">        <span class="comment">//    ENQUEUE("enqueue", 0, '\uffff'),</span></div><div class="line">        <span class="comment">//    SET_DL_SRC("setDlSrc", 0, 0),</span></div><div class="line">        <span class="comment">//    SET_DL_DST("setDlDst", 0, 0),</span></div><div class="line">        <span class="comment">//    SET_VLAN_ID("setVlan", 1, 4095),</span></div><div class="line">        <span class="comment">//    SET_VLAN_PCP("setVlanPcp", 0, 7),</span></div><div class="line">        <span class="comment">//    SET_VLAN_CFI("setVlanCif", 0, 1),</span></div><div class="line">        <span class="comment">//    POP_VLAN("stripVlan", 0, 0),</span></div><div class="line">        <span class="comment">//    PUSH_VLAN("pushVlan", 0, '\uffff'),</span></div><div class="line">        <span class="comment">//    SET_DL_TYPE("setDlType", 0, '\uffff'),</span></div><div class="line">        <span class="comment">//    SET_NW_SRC("setNwSrc", 0, 0),</span></div><div class="line">        <span class="comment">//    SET_NW_DST("setNwDst", 0, 0),</span></div><div class="line">        <span class="comment">//    SET_NW_TOS("setNwTos", 0, 63),</span></div><div class="line">        <span class="comment">//    SET_TP_SRC("setTpSrc", 0, '\uffff'),</span></div><div class="line">        <span class="comment">//    SET_TP_DST("setTpDst", 0, '\uffff'),</span></div><div class="line">        <span class="comment">//    SET_NEXT_HOP("setNextHop", 0, 0);</span></div><div class="line">        </div><div class="line">        actions.add(<span class="keyword">new</span> Output(outgoing_connector));</div><div class="line">        <span class="comment">//action是output到出口，也就是learn方法返回的目的mac地址所在的port</span></div><div class="line">        Flow f = <span class="keyword">new</span> Flow(match, actions);</div><div class="line">        <span class="comment">//有了匹配域和Action，现在来构造流表。</span></div><div class="line">        <span class="comment">//public Flow(Match match, List&lt;Action&gt; actions) {</span></div><div class="line">        <span class="comment">//    if (match.isIPv4() && actionsAreIPv6()) {</span></div><div class="line">        <span class="comment">//        try {</span></div><div class="line">        <span class="comment">//            throw new Exception("Conflicting Match and Action list");</span></div><div class="line">        <span class="comment">//        } catch (Exception e) {</span></div><div class="line">        <span class="comment">//            logger.error("", e);</span></div><div class="line">        <span class="comment">//        }</span></div><div class="line">        <span class="comment">//    } else {</span></div><div class="line">        <span class="comment">//        this.match = match;</span></div><div class="line">        <span class="comment">//        this.actions = actions;</span></div><div class="line">        <span class="comment">//   }</span></div><div class="line">        <span class="comment">//}</span></div><div class="line">        </div><div class="line">        f.setIdleTimeout((<span class="keyword">short</span>)<span class="number">5</span>);</div><div class="line">        <span class="comment">//规定时间没有流来就失效</span></div><div class="line"></div><div class="line">        <span class="comment">// Modify the flow on the network node</span></div><div class="line">        Node incoming_node = incoming_connector.getNode();</div><div class="line">        Status status = programmer.addFlow(incoming_node, f);</div><div class="line">        <span class="comment">//IFlowProgrammerService的addFlow方法，下发流表到交换鸡。</span></div><div class="line">        <span class="comment">//至此Flow已经完成，下面是Log信息</span></div><div class="line">        <span class="keyword">if</span> (!status.isSuccess()) {</div><div class="line">            logger.warn(<span class="string">"SDN Plugin failed to program the flow: {}. The failure is: {}"</span>,</div><div class="line">                    f, status.getDescription());</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        } <span class="keyword">else</span> {</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        }</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h2 id="问题">问题</h2>
+<p>为什么流表的匹配域是匹配IN_PORT和目的mac地址而不是单单的目的mac地址，把所有目的mac地址的包都output到目的mac地址所在的port不是很合情合理吗？</p>
+<p>这个代码高亮好像对块注释有点问题，有空再搞搞吧。<br>到这里就结束了，笔者比较菜，上大三了《计算基网络》还没看完，还请指教。下面是我的邮箱。</p>
+<p><img src="http://sunqi-me.qiniudn.com/%E9%82%AE%E7%AE%B1.gif" alt="G-mail"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/11/29/Opendaylight-MD-SAL-Ping/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          Opendaylight MD-SAL Ping
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Opendaylight-L2-Forwarding" data-title="Opendaylight L2_Forwarding" data-url="http://www.sunqi.me/2014/11/13/Opendaylight-L2-Forwarding/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"sunqi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2014 Lithium
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+  <script src="/js/main.js" type="text/javascript"></script>
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-56813865-1', 'auto');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+  </div>
+</body>
+</html>
